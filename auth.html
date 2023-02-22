@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Firebase Authentication Example</title>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+      *
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+    text-align: center;
+}
+h2 {
+  margin-bottom: 20px;
+}
+ .btn_login {
+    background: url(https://img.freepik.com/free-icon/google_318-278809.jpg);
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-position-x: 6px;
+    padding: 12px 8px 12px 48px;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.5s;
+}
+.btn_login:hover {
+  cursor: pointer;
+  background-color: rgba(126, 126, 126, 0.815);
+  color: #fff;
+  box-shadow: 0 0 20px -2px rgba(71, 71, 71, 0.5);
+  transition: 0.5s;
+}
+
+      /*.hidden {display:none;}*/
+    </style>
+  </head>
+  <body>
+    <div class="card">
+    <h1>Firebase Authentication</h1>
+    <div id="user-signed-out" class="hidden">
+      <h2>You are signed out</h2>
+      <button class="btn_login" id="sign-in-button">Sign in with Google</button>
+    </div></div>
+    <script type="module">
+      // Initialize Firebase
+      const firebaseConfig = {
+          apiKey: "----",
+          authDomain: "----",
+          databaseURL: "----",
+          projectId: "-----",
+          storageBucket: "-----",
+          messagingSenderId: "-----",
+          appId: "-----",
+          measurementId: "-----"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      // Get a reference to the authentication service
+      const auth = firebase.auth();
+
+      // UI elements
+      const userSignedInDiv = document.getElementById('user-signed-in');
+      const signInButton = document.getElementById('sign-in-button');
+
+      // Hide or show UI elements based on user authentication state
+      function toggleUI() {
+        if (auth.currentUser) {
+          location.href = "http://localhost:5500/admin.html";
+        } else {
+        }
+      }
+
+      // Event listeners
+      signInButton.addEventListener('click', () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider);
+      });
+
+      // Listen for authentication state changes
+      auth.onAuthStateChanged(user => {
+        toggleUI();
+      });
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Firebase Authentication Example</title>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+    text-align: center;
+}
+.card {
+    width: 800px;
+    height: 400px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    box-shadow: 0 0 20px -2px #00000082;
+}
+.card h1 {
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #e91e63;
+    color: crimson;
+}
+.card .btn_logout {
+    background: url(https://img.freepik.com/free-icon/google_318-278809.jpg);
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-position-x: 6px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 8px 8px 38px;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.5s;
+}
+.btn_logout:hover {
+  cursor: pointer;
+  background-color: rgba(126, 126, 126, 0.815);
+  color: #fff;
+  box-shadow: 0 0 20px -2px rgba(71, 71, 71, 0.5);
+  transition: 0.5s;
+}
+#user-display-name {background: aqua;padding: 5px 10px;}
+h2 {margin-bottom: 50px;}
+    </style>
+    
+  </head>
+  <body>
+    <div class="card">
+    <h1>Welcome Page Example</h1>
+    <div id="user-signed-in" class="userBox">
+      <h2>Welcome, <span id="user-display-name"></span></h2>
+      <p>Your email address is <span id="user-email"></span></p>
+      <button class="btn_logout" id="sign-out-button">Sign out</button>
+    </div></div>
+    <script type="module">
+      // Initialize Firebase
+      const firebaseConfig = {
+          apiKey: "----",
+          authDomain: "----",
+          databaseURL: "----",
+          projectId: "-----",
+          storageBucket: "-----",
+          messagingSenderId: "-----",
+          appId: "-----",
+          measurementId: "-----"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      // Get a reference to the authentication service
+      const auth = firebase.auth();
+
+      // UI elements
+      const userSignedOutDiv = document.getElementById('user-signed-out');
+      const userSignedInDiv = document.getElementById('user-signed-in');
+      const userDisplayName = document.getElementById('user-display-name');
+      const userEmail = document.getElementById('user-email');
+      const signOutButton = document.getElementById('sign-out-button');
+
+      function toggleUI() {
+        if (auth.currentUser) {
+          userDisplayName.textContent = auth.currentUser.displayName;
+          userEmail.textContent = auth.currentUser.email;
+        } else {
+          location.href = "http://localhost:5500/auth.html";
+        }
+      }
+      signOutButton.addEventListener('click', () => {
+        auth.signOut();
+          location.href = "http://localhost:5500/auth.html";
+      });
+
+      // Listen for authentication state changes
+      auth.onAuthStateChanged(user => {
+        toggleUI();
+      });
+    </script>
+  </body>
+</html>
